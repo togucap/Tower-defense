@@ -1,0 +1,270 @@
+/* style.css — Layout em retrato: HUD em cima, mapa no meio, controles embaixo. */
+
+:root {
+  --madeira: #6b4527;
+  --madeira-escura: #3b2614;
+  --madeira-borda: #2b1a0c;
+  --pergaminho: #f1e3c2;
+  --ouro: #e8b923;
+  --sangue: #b3261e;
+  --texto-claro: #f7ecd4;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Sem rolagem, sem seleção de texto, sem zoom por gesto */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+  background: #1c140d;
+  color: var(--texto-claro);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+[hidden] { display: none !important; }
+
+#app {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  flex-direction: column;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* ---------- HUD ---------- */
+#hud {
+  flex: 0 0 auto;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 8px;
+  padding: 0 10px;
+  background: linear-gradient(var(--madeira), #4a2f19);
+  border-bottom: 3px solid var(--madeira-borda);
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 0 1px 0 #000;
+}
+
+.icone-vida { color: #e04a3f; font-size: 22px; line-height: 1; }
+.icone-ouro {
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #fff3b0, var(--ouro) 55%, #9a7210);
+  box-shadow: 0 0 0 1px #6b4f0a;
+}
+.icone-texto { font-size: 13px; opacity: 0.85; }
+
+/* ---------- Área do jogo ---------- */
+#palco {
+  flex: 1 1 auto;
+  min-height: 0;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#tela {
+  display: block;
+  box-shadow: 0 0 0 2px var(--madeira-borda);
+}
+
+#aviso {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: calc(100% - 32px);
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: rgba(30, 20, 10, 0.88);
+  border: 1px solid rgba(232, 185, 35, 0.5);
+  font-size: 15px;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 5;
+}
+#aviso.visivel { opacity: 1; }
+
+/* ---------- Controles ---------- */
+#controles {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  background: linear-gradient(#4a2f19, var(--madeira));
+  border-top: 3px solid var(--madeira-borda);
+}
+
+.botao {
+  min-width: 52px;
+  min-height: 52px;
+  padding: 0 12px;
+  border: 2px solid var(--madeira-borda);
+  border-radius: 10px;
+  background: linear-gradient(#d8b377, #a07a42);
+  color: var(--madeira-borda);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 3px 0 var(--madeira-borda);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.botao:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.35), 0 1px 0 var(--madeira-borda);
+}
+.botao:disabled {
+  opacity: 0.5;
+  filter: grayscale(0.7);
+  cursor: default;
+}
+
+.botao-principal {
+  flex: 1;
+  background: linear-gradient(#d4473c, #97231b);
+  color: var(--texto-claro);
+  text-shadow: 0 1px 0 #000;
+}
+
+/* ---------- Telas sobrepostas (pausa, resultado...) ---------- */
+.sobreposicao {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 6, 3, 0.72);
+  z-index: 20;
+}
+
+.painel {
+  width: calc(100% - 32px);
+  max-width: 320px;
+  padding: 22px 20px;
+  border: 4px solid var(--madeira);
+  border-radius: 12px;
+  background: var(--pergaminho);
+  color: var(--madeira-escura);
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+.painel h1 { font-size: 30px; margin-bottom: 8px; color: var(--sangue); letter-spacing: 0.5px; }
+.painel h2 { font-size: 26px; margin-bottom: 8px; }
+.painel p { font-size: 16px; line-height: 1.35; margin-bottom: 18px; }
+.painel .botao { width: 100%; }
+.painel .botao + .botao { margin-top: 12px; }
+.painel .dica { font-size: 13px; margin: 14px 0 0; opacity: 0.75; }
+.titulo-vitoria { color: #2f6b1f; }
+.titulo-derrota { color: var(--sangue); }
+
+/* Lista de estatísticas (tela inicial e de resultado) */
+.estatisticas {
+  list-style: none;
+  margin: 16px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(90, 59, 34, 0.12);
+  text-align: left;
+  font-size: 15px;
+}
+.estatisticas:empty { display: none; }
+.estatisticas li { display: flex; justify-content: space-between; padding: 3px 0; }
+#tela-inicio .estatisticas { margin-bottom: 0; }
+
+/* ---------- Menu de contexto (construção / torre) ---------- */
+.menu-contexto {
+  position: absolute;
+  z-index: 10;
+  padding: 8px;
+  border: 3px solid var(--madeira-borda);
+  border-radius: 12px;
+  background: var(--pergaminho);
+  color: var(--madeira-escura);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+.menu-construcao { display: flex; gap: 6px; }
+
+.opcao-torre {
+  width: 96px;
+  min-height: 116px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 4px;
+  border: 2px solid var(--madeira);
+  border-radius: 10px;
+  background: #fff8e6;
+  color: var(--madeira-escura);
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.opcao-torre:active { background: #f3dfb0; }
+.opcao-torre:disabled { opacity: 0.45; filter: grayscale(0.8); cursor: default; }
+.opcao-nome { font-weight: bold; font-size: 15px; }
+.opcao-descricao { font-size: 11px; line-height: 1.15; text-align: center; opacity: 0.8; min-height: 26px; }
+
+.valor-ouro { display: inline-flex; align-items: center; gap: 4px; font-weight: bold; font-size: 15px; }
+.valor-ouro .icone-ouro { width: 13px; height: 13px; }
+
+.menu-torre { width: 250px; }
+.menu-titulo { display: flex; justify-content: space-between; align-items: baseline; font-size: 17px; margin-bottom: 4px; }
+.menu-titulo span { font-size: 13px; opacity: 0.8; }
+.menu-atributos { display: flex; flex-wrap: wrap; gap: 2px 10px; font-size: 13px; margin-bottom: 8px; }
+.menu-acoes { display: flex; gap: 8px; }
+.botao-acao {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 15px;
+  padding: 4px 6px;
+}
+.botao-vender { background: linear-gradient(#c9c1b4, #968c7c); }
+
+/* Celulares estreitos (ex.: 320px de largura) */
+@media (max-width: 350px) {
+  .hud-item { min-width: 0; padding: 4px 8px; font-size: 17px; }
+  #controles { gap: 6px; padding: 8px; }
+  .botao { min-width: 48px; min-height: 48px; font-size: 16px; padding: 0 8px; }
+  .opcao-torre { width: 86px; }
+  .opcao-descricao { font-size: 10px; }
+}
+
+/* Aviso de girar o aparelho: só em paisagem com pouca altura (celular deitado) */
+#aviso-retrato { display: none; z-index: 50; }
+@media (orientation: landscape) and (max-height: 500px) {
+  #aviso-retrato { display: flex; }
+}

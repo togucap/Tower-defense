@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <!-- Sem zoom e ocupando a tela inteira (inclusive áreas do entalhe) -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#2b1a0c">
+  <meta name="description" content="Tower defense medieval: defenda o castelo da horda de mortos-vivos.">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Defesa do Reino">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Defesa do Reino</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icone-192.png">
+  <link rel="apple-touch-icon" href="icons/icone-180.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- HUD: vidas, ouro e onda -->
+    <header id="hud">
+      <div class="hud-item" title="Vidas"><span class="icone icone-vida">♥</span><span id="hud-vidas">20</span></div>
+      <div class="hud-item" title="Ouro"><span class="icone icone-ouro"></span><span id="hud-ouro">0</span></div>
+      <div class="hud-item" title="Onda"><span class="icone-texto">Onda</span><span id="hud-onda">0/10</span></div>
+    </header>
+
+    <!-- Área do jogo: o canvas é centralizado e escalado aqui -->
+    <main id="palco">
+      <canvas id="tela"></canvas>
+      <!-- Menu de construção / torre (montado por ui.js) -->
+      <div id="menu-contexto" class="menu-contexto" hidden></div>
+      <div id="aviso" aria-live="polite"></div>
+    </main>
+
+    <!-- Controles -->
+    <footer id="controles">
+      <button id="btn-pausa" class="botao" aria-label="Pausar">❚❚</button>
+      <button id="btn-velocidade" class="botao" aria-label="Velocidade">1x</button>
+      <button id="btn-som" class="botao" aria-label="Som">🔊</button>
+      <button id="btn-onda" class="botao botao-principal">Iniciar onda 1</button>
+    </footer>
+
+    <!-- Tela inicial -->
+    <div id="tela-inicio" class="sobreposicao" hidden>
+      <div class="painel">
+        <h1>Defesa do Reino</h1>
+        <p>Os mortos-vivos marcham até os portões. Construa torres ao lado da estrada e proteja o castelo!</p>
+        <button id="btn-continuar-partida" class="botao botao-principal" hidden>Continuar</button>
+        <button id="btn-novo-jogo" class="botao botao-principal">Novo jogo</button>
+        <ul id="inicio-estatisticas" class="estatisticas"></ul>
+      </div>
+    </div>
+
+    <!-- Tela de pausa -->
+    <div id="tela-pausa" class="sobreposicao" hidden>
+      <div class="painel">
+        <h2>Pausado</h2>
+        <p>O reino aguarda suas ordens.</p>
+        <button id="btn-continuar" class="botao botao-principal">Continuar</button>
+        <button id="btn-sair-menu" class="botao">Menu principal</button>
+        <p class="dica">O progresso é salvo no fim de cada onda.</p>
+      </div>
+    </div>
+
+    <!-- Tela de resultado (vitória/derrota) -->
+    <div id="tela-resultado" class="sobreposicao" hidden>
+      <div class="painel">
+        <h2 id="resultado-titulo">Vitória!</h2>
+        <p id="resultado-texto"></p>
+        <ul id="resultado-estatisticas" class="estatisticas"></ul>
+        <button id="btn-jogar-novamente" class="botao botao-principal">Jogar de novo</button>
+        <button id="btn-resultado-menu" class="botao">Menu principal</button>
+      </div>
+    </div>
+
+    <!-- Aviso para girar o aparelho (só aparece em paisagem no celular) -->
+    <div id="aviso-retrato" class="sobreposicao">
+      <div class="painel">
+        <h2>Gire o aparelho</h2>
+        <p>Este jogo foi feito para o modo retrato.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts clássicos, em ordem (namespace global window.TD). Funcionam em file:// e em servidor. -->
+  <script src="js/config.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/assets.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/enemies.js"></script>
+  <script src="js/towers.js"></script>
+  <script src="js/projectiles.js"></script>
+  <script src="js/waves.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

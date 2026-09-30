@@ -1,0 +1,17 @@
+{
+  "name": "Defesa do Reino",
+  "short_name": "Defesa do Reino",
+  "description": "Tower defense medieval: defenda o castelo da horda de mortos-vivos.",
+  "lang": "pt-BR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "portrait",
+  "background_color": "#1c140d",
+  "theme_color": "#2b1a0c",
+  "icons": [
+    { "src": "icons/icone-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icone-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icone-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
